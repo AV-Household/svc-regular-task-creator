@@ -1,117 +1,93 @@
 using FluentAssertions.Equivalency;
+using Regular_Task_Creator.Controllers;
 using System.Diagnostics.CodeAnalysis;
-using Regular_Task_Creator.Specs.Drivers;
-using static Regular_Task_Creator.Controllers.RegularTaskController;
+using Regular_Task_Creator.Models;
 using System.Linq;
+using TechTalk.SpecFlow;
 
 namespace Regular_Task_Creator.Specs.StepDefinitions;
 
 [Binding]
 public sealed class RegularTaskStepDefinitions
 {
-    private Dictionary<string, (string Email, string Phone, bool IsAdult)> _givenFamilyMembers = new();
-    private Dictionary<string, (string Descript, int RecreateTime)> _givenTaskTemplates = new();
 
-    private List<TaskTemplate>? _taskTemplatesList = new List<TaskTemplate>();
-
-    private readonly RegularTaskDriver _regularTaskDriver;
-
-    public RegularTaskStepDefinitions(RegularTaskDriver regularTaskDriver)
-    {
-        _regularTaskDriver = regularTaskDriver;
-    }
+    RegularTaskController _controller = new RegularTaskController();
 
     [Given(@"семья из")]
-    public async Task GivenFamily(Table FamilyTable)
+    public void GivenFamily(Table FamilyMembersTable)
     {
-        _givenFamilyMembers = FamilyTable.Rows
-           .ToDictionary(row => row["Name"].Trim(), row => (Email: row["Email"].Trim(), Phone: row["Phone"].Trim(), IsAdult: row["Adult"].Trim() == "да"));
-
-        var members = _givenFamilyMembers
-            .Select(givenMember => new FamilyMember(
-                Guid.NewGuid(),
-                1,
-                givenMember.Key,
-                givenMember.Value.Phone,
-                givenMember.Value.Email,
-                givenMember.Value.IsAdult
-            ));
-        await _regularTaskDriver.InitFamilyCollectionAsync(members);
+        List<FamilyMember> familymembers = new List<FamilyMember>();
+        foreach (var row in FamilyMembersTable.Rows)
+        {
+            familymembers.Add(new FamilyMember(row[0], row[1], row[2], Convert.ToBoolean(row[3])));
+        }
+        _controller.PostFamilyMember(familymembers);
     }
 
     [Given(@"список шаблонов из")]
-    public async Task GivenTemplatesList(Table table)
+    public void GivenTemplatesList(Table TaskTemplatesTable)
     {
-        _givenTaskTemplates = table.Rows
-           .ToDictionary(row => row["Name"].Trim(), row => (Descript: row["Description"], RecreateTime: Convert.ToInt32(row["Recreate Time(в часах)"].Trim())));
-
-        var members = _givenTaskTemplates
-            .Select(givenTemplate => new TaskTemplate(
-                givenTemplate.Key,
-                givenTemplate.Value.Descript,
-                givenTemplate.Value.RecreateTime
-            ));
-        await _regularTaskDriver.InitTemplatesCollectionAsync(members);
+        List<TaskTemplate> tasktemplates = new List<TaskTemplate>();
+        foreach (var row in TaskTemplatesTable.Rows) 
+        {
+            List<string> RecreateDaysList = new List<string>(row[2].Split(','));
+            tasktemplates.Add(new TaskTemplate(Convert.ToInt32(row[0]), row[1], RecreateDaysList, row[3]));
+        }
+        _controller.PostTaskTemplate(tasktemplates);
     }
 
     [Given(@"в систему вошел (.*)")]
-    public async Task GivenLogIn(string name)
+    public void GivenLogIn(string username)
     {
-        await _regularTaskDriver.SetTokenAsync();
+        _controller.LogIn(username);
     }
 
     [When(@"пользователь добавляет шаблон \((.*), \((.*)\), (.*)\)")]
-    public async Task WhenUserAddTemplate(string name, int recreateDays, string discript)
+    public void WhenUserAddTemplate(string name, string recreateDays, string discript)
     {
-        await _regularTaskDriver.AddTemplateAsync();
+        List<string> RecreateDaysList = new List<string>(recreateDays.Split(','));
+        _controller.PostTaskTemplate(name, RecreateDaysList, discript);
     }
 
-    [When(@"пользователь удаляет шаблон \((.*), \((.*)\), (.*)\)")]
-    public async Task WhenUserDeleteTemplate(string name, int time, string discript)
+    [When(@"пользователь удаляет шаблон с Id (.*)")]
+    public void WhenUserDeleteTemplate(int templateId)
     {
-        await _regularTaskDriver.DeleteTemplateAsync();
+        _controller.DeleteTaskTemplate(templateId);
     }
 
-    [When(@"пользователь изменяет шаблон \((.*), \((.*)\), (.*)\) на шаблон \((.*), \((.*)\), (.*)\)")]
-    public async Task WhenUserEditTemplate(string p0, int p1, string p2, string p3, int p4, string p5)
+    [When(@"пользователь изменяет шаблон с Id (.*) на шаблон \((.*), \((.*)\), (.*)\)")]
+    public void WhenUserEditTemplate(int p2, string p3, string p4, string p5)
     {
-        await _regularTaskDriver.EditTemplateAsync();
-    }
-
-    [When(@"пользователь получает список шаблонов")]
-    public async void WhenUserGetTemplatesList()
-    {
-        _taskTemplatesList = await _regularTaskDriver.GetTaskTemplatesAsync();
+        List<string> RecreateDaysList = new List<string>(p4.Split(','));
+        _controller.PutTaskTemplate(p2, p3, RecreateDaysList, p5);
     }
 
     [Then(@"количество шаблонов в списке (.*)")]
     public void ThenCountTemplates(int p0)
     {
-        _taskTemplatesList.Should().HaveCount(p0);
-    }
-
-    [Then(@"создать задачу из шаблона")]
-    public void ThenCreateTaskFromTemplate()
-    {
-        // Вызов сервиса создания задач
-    }
+         _controller.GetTemplates().Should().HaveCount(p0);
+    } 
 
     [Then(@"в списке есть шаблон \((.*), \((.*)\), (.*)\)")]
-    public void ThenTemplateExist(string name, int p0, string p5)
+    public void ThenTemplateExist(string name, string p0, string p5)
     {
-        _taskTemplatesList.Should().ContainSingle(taskTemplate => taskTemplate.Name == name);
+        List<string> RecreateDaysList = new List<string>(p0.Split(','));
+        _controller.GetExistTemplate(name, RecreateDaysList, p5);
     }
 
-    [When(@"день совпадает")]
-    public void WhenДеньСовпал()
+    [When(@"наступил (.*)")]
+    public void WhenNewDayStart(string DayOfWeek)
     {
-        // Не знаю как реализовать
+        _controller.PutCurrentDay(DayOfWeek);
     }
 
-    [Then(@"количество задач в списке (.*)")]
-    public void ThenКоличествоЗадачВСписке(int p0)
+    [Then(@"создать задачу из шаблона с Id (.*)")]
+    public void ThenCreateTaskFromTemplate(int Id)
     {
-        // Вызов сервиса создания задач
+        TaskTemplate elem = _controller.GetTemplates().ToList().Find(template => template.Id == Id);
+        if (elem == null) { throw new Exception(); }
+        List<string> days = elem.RecreateDays;
+        if (days.Contains(_controller.GetCurrentDay()))
+            OtherServiceNamespace.OtherServiceClass.GetTaskFromTemplate(elem);
     }
-
 }

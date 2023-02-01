@@ -6,39 +6,36 @@
 
 Scenario: Родитель может удалить шаблон
 	Given семья из 
-		| Email             | Phone        | Name | Adult |
-		| father@family.com | +79180000001 | Папа | да    |
-		| son@family.com    | +79180000002 | Сын  | нет   |
+		| Name | Phone        | Email             | Adult |
+		| Папа | +79180000001 | father@family.com | true  |
+		| Сын  | +79180000002 | son@family.com    | false |
 	And список шаблонов из
-		| Name          | Recreate Days | Description               |
-		| Помыть посуду | M,T,Th        | Используй моющее средство |
+		| Id | Name          | Recreate Days | Description               |
+		| 1  | Помыть посуду | M,T,Th        | Используй моющее средство |
 	And в систему вошел Папа
-	When пользователь удаляет шаблон (Помыть посуду, (M,T,Th), Используй моющее средство)
-	And  пользователь получает список шаблонов
+	When пользователь удаляет шаблон с Id 1
 	Then количество шаблонов в списке 0
 
 Scenario: Ребенок не может удалить шаблон
 	Given семья из 
-		| Email             | Phone        | Name | Adult |
-		| father@family.com | +79180000001 | Папа | да    |
-		| son@family.com    | +79180000002 | Сын  | нет   |
+		| Name | Phone        | Email             | Adult |
+		| Папа | +79180000001 | father@family.com | true  |
+		| Сын  | +79180000002 | son@family.com    | false |
 	And список шаблонов из
-		| Name          | Recreate Days | Description               |
-		| Помыть посуду | M,T,Th        | Используй моющее средство |
+		| Id | Name          | Recreate Days | Description               |
+		| 1  | Помыть посуду | M,T,Th        | Используй моющее средство |
 	And в систему вошел Сын
-	When пользователь удаляет шаблон (Помыть посуду, (M,T,Th), Используй моющее средство)
-	And  пользователь получает список шаблонов
+	When пользователь удаляет шаблон с Id 1
 	Then количество шаблонов в списке 1
 
 Scenario: Родитель не может удалить несуществующий шаблон
 	Given семья из 
-		| Email             | Phone        | Name | Adult |
-		| father@family.com | +79180000001 | Папа | да    |
-		| son@family.com    | +79180000002 | Сын  | нет   |
+		| Name | Phone        | Email             | Adult |
+		| Папа | +79180000001 | father@family.com | true  |
+		| Сын  | +79180000002 | son@family.com    | false |
 	And список шаблонов из
-		| Name          | Recreate Days | Description               |
-		| Помыть посуду | M,T,Th        | Используй моющее средство |
+		| Id | Name          | Recreate Days | Description               |
+		| 1  | Помыть посуду | M,T,Th        | Используй моющее средство |
 	And в систему вошел Папа
-	When пользователь удаляет шаблон (Помыть посуду, (M,T), Используй моющее средство)
-	And  пользователь получает список шаблонов
+	When пользователь удаляет шаблон с Id 2
 	Then количество шаблонов в списке 1

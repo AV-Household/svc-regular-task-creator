@@ -21,11 +21,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Drivers\" />
     <Folder Include="Support\" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Regular Task Creator\Regular Task Creator.csproj" />
+    <ProjectReference Include="..\WebApplication1\Regular Task Creator.csproj" />
   </ItemGroup>
 
   <ItemGroup>

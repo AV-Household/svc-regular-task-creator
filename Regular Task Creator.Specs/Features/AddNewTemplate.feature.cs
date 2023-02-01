@@ -109,28 +109,30 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
                 TechTalk.SpecFlow.Table table1 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Email",
-                            "Phone",
                             "Name",
+                            "Phone",
+                            "Email",
                             "Adult"});
                 table1.AddRow(new string[] {
-                            "father@family.com",
-                            "+79180000001",
                             "Папа",
-                            "да"});
+                            "+79180000001",
+                            "father@family.com",
+                            "true"});
                 table1.AddRow(new string[] {
-                            "son@family.com",
-                            "+79180000002",
                             "Сын",
-                            "нет"});
+                            "+79180000002",
+                            "son@family.com",
+                            "false"});
 #line 6
  testRunner.Given("семья из", ((string)(null)), table1, "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table2 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Id",
                             "Name",
                             "Recreate Days",
                             "Description"});
                 table2.AddRow(new string[] {
+                            "1",
                             "Помыть посуду",
                             "M,T,Th",
                             "Используй моющее средство"});
@@ -140,13 +142,10 @@ this.ScenarioInitialize(scenarioInfo);
 #line 13
  testRunner.And("в систему вошел Папа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 15
+#line 14
  testRunner.When("пользователь добавляет шаблон (Почисти зубы, (M,T,Th), )", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 16
- testRunner.And("пользователь получает список шаблонов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 18
+#line 15
  testRunner.Then("количество шаблонов в списке 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -161,7 +160,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Ребенок не может добавить новый шаблон", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 21
+#line 18
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -182,44 +181,43 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
                 TechTalk.SpecFlow.Table table3 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Email",
-                            "Phone",
                             "Name",
+                            "Phone",
+                            "Email",
                             "Adult"});
                 table3.AddRow(new string[] {
-                            "father@family.com",
-                            "+79180000001",
                             "Папа",
-                            "да"});
+                            "+79180000001",
+                            "father@family.com",
+                            "true"});
                 table3.AddRow(new string[] {
-                            "son@family.com",
-                            "+79180000002",
                             "Сын",
-                            "нет"});
-#line 22
+                            "+79180000002",
+                            "son@family.com",
+                            "false"});
+#line 19
  testRunner.Given("семья из", ((string)(null)), table3, "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table4 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Id",
                             "Name",
                             "Recreate Days",
                             "Description"});
                 table4.AddRow(new string[] {
+                            "1",
                             "Помыть посуду",
                             "M,T,Th",
                             "Используй моющее средство"});
-#line 26
+#line 23
  testRunner.And("список шаблонов из", ((string)(null)), table4, "And ");
 #line hidden
-#line 29
+#line 26
  testRunner.And("в систему вошел Сын", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 31
+#line 27
  testRunner.When("пользователь добавляет шаблон (Почисти зубы, (M,T,Th), )", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 32
- testRunner.And("пользователь получает список шаблонов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 34
+#line 28
  testRunner.Then("количество шаблонов в списке 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
@@ -234,7 +232,7 @@ this.ScenarioInitialize(scenarioInfo);
             string[] tagsOfScenario = ((string[])(null));
             System.Collections.Specialized.OrderedDictionary argumentsOfScenario = new System.Collections.Specialized.OrderedDictionary();
             TechTalk.SpecFlow.ScenarioInfo scenarioInfo = new TechTalk.SpecFlow.ScenarioInfo("Родитель не может добавить уже существующий шаблон", null, tagsOfScenario, argumentsOfScenario, this._featureTags);
-#line 38
+#line 32
 this.ScenarioInitialize(scenarioInfo);
 #line hidden
             bool isScenarioIgnored = default(bool);
@@ -255,45 +253,44 @@ this.ScenarioInitialize(scenarioInfo);
             {
                 this.ScenarioStart();
                 TechTalk.SpecFlow.Table table5 = new TechTalk.SpecFlow.Table(new string[] {
-                            "Email",
-                            "Phone",
                             "Name",
+                            "Phone",
+                            "Email",
                             "Adult"});
                 table5.AddRow(new string[] {
-                            "father@family.com",
-                            "+79180000001",
                             "Папа",
-                            "да"});
+                            "+79180000001",
+                            "father@family.com",
+                            "true"});
                 table5.AddRow(new string[] {
-                            "son@family.com",
-                            "+79180000002",
                             "Сын",
-                            "нет"});
-#line 39
+                            "+79180000002",
+                            "son@family.com",
+                            "false"});
+#line 33
  testRunner.Given("семья из", ((string)(null)), table5, "Given ");
 #line hidden
                 TechTalk.SpecFlow.Table table6 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Id",
                             "Name",
                             "Recreate Days",
                             "Description"});
                 table6.AddRow(new string[] {
+                            "1",
                             "Помыть посуду",
                             "M,T,Th",
                             "Используй моющее средство"});
-#line 43
+#line 37
  testRunner.And("список шаблонов из", ((string)(null)), table6, "And ");
 #line hidden
-#line 46
+#line 40
  testRunner.And("в систему вошел Папа", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
 #line hidden
-#line 48
+#line 41
  testRunner.When("пользователь добавляет шаблон (Помыть посуду, (M,T,Th), Используй моющее средство" +
                         ")", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
 #line hidden
-#line 49
- testRunner.And("пользователь получает список шаблонов", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
-#line hidden
-#line 51
+#line 42
  testRunner.Then("количество шаблонов в списке 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }

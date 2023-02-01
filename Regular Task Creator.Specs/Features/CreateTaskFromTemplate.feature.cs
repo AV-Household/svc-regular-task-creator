@@ -110,23 +110,40 @@ this.ScenarioInitialize(scenarioInfo);
                 this.ScenarioStart();
                 TechTalk.SpecFlow.Table table7 = new TechTalk.SpecFlow.Table(new string[] {
                             "Name",
+                            "Phone",
+                            "Email",
+                            "Adult"});
+                table7.AddRow(new string[] {
+                            "Папа",
+                            "+79180000001",
+                            "father@family.com",
+                            "true"});
+                table7.AddRow(new string[] {
+                            "Сын",
+                            "+79180000002",
+                            "son@family.com",
+                            "false"});
+#line 10
+ testRunner.Given("семья из", ((string)(null)), table7, "Given ");
+#line hidden
+                TechTalk.SpecFlow.Table table8 = new TechTalk.SpecFlow.Table(new string[] {
+                            "Id",
+                            "Name",
                             "Recreate Days",
                             "Description"});
-                table7.AddRow(new string[] {
+                table8.AddRow(new string[] {
+                            "1",
                             "Помыть посуду",
                             "M,T,Th",
                             "Используй моющее средство"});
-#line 10
- testRunner.Given("список шаблонов из", ((string)(null)), table7, "Given ");
-#line hidden
-#line 13
- testRunner.When("день совпадает", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
-#line hidden
 #line 14
- testRunner.Then("создать задачу из шаблона", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
+ testRunner.And("список шаблонов из", ((string)(null)), table8, "And ");
 #line hidden
-#line 15
- testRunner.And("количество задач в списке 2", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "And ");
+#line 17
+ testRunner.When("наступил M", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "When ");
+#line hidden
+#line 18
+ testRunner.Then("создать задачу из шаблона с Id 1", ((string)(null)), ((TechTalk.SpecFlow.Table)(null)), "Then ");
 #line hidden
             }
             this.ScenarioCleanup();
